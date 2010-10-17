@@ -1,3 +1,10 @@
+def run_cover_me_at_end
+  last_task = Rake.application.top_level_tasks.last
+  Rake::Task[last_task].enhance do
+    Rake::Task['cover_me:report'].invoke
+  end
+end
+
 namespace :cover_me do
   
   task :report do
@@ -8,9 +15,9 @@ namespace :cover_me do
 end
 
 task :test do
-  Rake::Task['cover_me:report'].invoke
+  run_cover_me_at_end
 end
 
 task :spec do
-  Rake::Task['cover_me:report'].invoke
+  run_cover_me_at_end
 end
